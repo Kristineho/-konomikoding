@@ -9,9 +9,11 @@
  */
 
 // --- 1. Last inn miljøvariabler (valgfritt men anbefalt) ---
-if (file_exists(__DIR__ . '/.env')) {
+if (file_exists(__DIR__ . '/.env')) 
+{
     $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    foreach ($lines as $line) {
+    foreach ($lines as $line) 
+    {
         if (strpos(trim($line), '#') === 0) continue; // hopp over kommentarer
         list($name, $value) = array_map('trim', explode('=', $line, 2));
         $_ENV[$name] = $value;
@@ -27,16 +29,21 @@ $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
-$options = [
+$options = 
+[
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // kast exceptions
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // returner assoc arrays
     PDO::ATTR_EMULATE_PREPARES   => false,                  // ekte prepared statements
 ];
 
 // --- 3. Sikker tilkobling ---
-try {
+try 
+{
     $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
+} 
+catch (PDOException $e) 
+
+{
     // Logg feil til fil uten å vise sensitiv info
     error_log("[" . date('Y-m-d H:i:s') . "] DB-feil: " . $e->getMessage() . PHP_EOL, 3, __DIR__ . '/logs/db_errors.log');
 
@@ -45,7 +52,8 @@ try {
 }
 
 // --- 4. (Valgfritt) Opprett global funksjon for tilgang ---
-function db(): PDO {
+function db(): PDO 
+{
     global $pdo;
     return $pdo;
 }
